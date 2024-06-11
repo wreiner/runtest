@@ -18,13 +18,26 @@
 
 stages:          # List of stages for jobs, and their order of execution
   - build
-  - test
-  - deploy
 
-build-job:       # This job runs in the build stage, which runs first.
+variables:
+  CACHE_DIR  : 'cache_dir'
+
+.: &build_ccache
+  key: cache_build_ccache
+  paths:
+    - $CACHE_DIR
+  when: on_success
+  policy: pull-push
+
+build-job:cache:       # This job runs in the build stage, which runs first.
   stage: build
+  cache:
+    - *build_ccache
   script:
     - echo "Compiling the code..."
+    - mkdir $CACHE_DIR
+    - sleep 60
+    - ls $CACHE_DIR
     - sh testscript.sh
     - echo "Compile complete."
 

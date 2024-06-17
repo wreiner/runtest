@@ -39,6 +39,9 @@ build-job:cache:       # This job runs in the build stage, which runs first.
   hooks:
     pre_get_sources_script:
       - echo 'hello run commands here before fetching the project repository'
+      - cp -f /home/gitlab-runner/.gitlab-runner/certs/signer-ca.crt /usr/local/share/ca-certificates/
+      - /usr/sbin/update-ca-certificates
+      - /usr/bin/curl https://s3.openshift-storage.svc
   stage: build
   cache:
     - *build_ccache

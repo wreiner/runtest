@@ -22,6 +22,11 @@ stages:          # List of stages for jobs, and their order of execution
 variables:
   CACHE_DIR  : 'cache_dir'
 
+before_script:
+  - echo "------ before script -----"
+  - whoami
+  - ls
+
 .: &build_ccache
   key: cache_build_ccache
   paths:
